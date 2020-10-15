@@ -1,0 +1,63 @@
+
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card mat-elevation-z8 bg-light">
+                <h3 class="card-header text-center text-secondary">
+                    <strong>CURRENCY EXCHANGER</strong></h3>
+                   <div class="card-body">
+                        <form [formGroup]="currencyConverterForm">
+                            <div class="row m-2">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>FROM CURRENCY</mat-label>
+                                    <mat-select formControlName="fromCurrency">
+                                        <ng-container *ngFor = "let currency of currencies">
+                                            <mat-option [value] = "currency">{{currency}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error *ngIf = "currencyConverterForm.get('fromCurrency').hasError('required')">
+                                        Please select valid currency
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+        
+                            <div class="row m-2">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>TO CURRENCY</mat-label>
+                                    <mat-select formControlName="toCurrency">
+                                        <ng-container *ngFor = "let currency of currencies">
+                                            <mat-option [value] = "currency">{{currency}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error *ngIf = "currencyConverterForm.get('toCurrency').hasError('required')">
+                                        Please select valid currency
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="row m-2">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>Amout</mat-label>
+                                    <input matInput formControlName="amount">
+                                    <mat-error *ngIf = "currencyConverterForm.get('amount').hasError('required')">
+                                        Please Enter valid amount
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <button mat-raised-button color ="primary" [disabled] = "currencyConverterForm.invalid" (click) = "calculate()">EXCHANGE</button>
+                        </form>
+                   </div>
+                   <ng-container *ngIf = "convertedAmount > 0">
+                       <mat-divider class="m-2"></mat-divider>
+                       <div class="text-center mb-4">
+                           <strong>{{amount}}  {{fromCurrency}}  =  {{convertedAmount}} {{toCurrency}}</strong>
+                       </div>
+                   </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
