@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { from } from 'rxjs';
 import {ExchagnerateService, ExchangeData} from './../exchagnerate.service';
+import {CurrencydataService} from './../currencydata.service'
+import {plainToClass, deserialize} from  'class-transformer'
 
 @Component({
   selector: 'app-currency-exchanger',
@@ -11,24 +13,33 @@ import {ExchagnerateService, ExchangeData} from './../exchagnerate.service';
 export class CurrencyExchangerComponent implements OnInit {
 
   currencyConverterForm : FormGroup;
-  currencies : string[];
+  currencies : String[] = [];
 
   fromCurrency : string;
   toCurrency : string;
   amount : number;
   convertedAmount: number;
   rateMap = new Map<string, number>();
+  currencyCodeSymbolMap = new Map<String, String>();
 
-  constructor(private fb : FormBuilder, private service: ExchagnerateService) { }
+  constructor(private fb : FormBuilder, private service: ExchagnerateService,
+    private currencyDataService: CurrencydataService) { }
 
   ngOnInit() {
-    this.currencies = ['USD', 'INR', 'ABD', 'DUB', 'FBP']
+    this.currencyCodeSymbolMap = this.currencyDataService.buildCurrencyCodeSymbolMap();
+    Array.from(this.currencyCodeSymbolMap.keys()).forEach(data => {
+      this.currencies.push(data);
+    })
+    console.log(this.currencies)
     this.currencyConverterForm = this.fb.group({
       fromCurrency:['USD', [Validators.required]],
       toCurrency:['', [Validators.required]],
       amount: ['', [Validators.required]]
     })
+  }
 
+  get currencySymbol() {
+    return this.currencyCodeSymbolMap.get(this.currencyConverterForm.get('fromCurrency').value)  
   }
 
   calculate() {

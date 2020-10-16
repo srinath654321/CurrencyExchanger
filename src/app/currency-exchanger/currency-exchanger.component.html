@@ -39,7 +39,8 @@
                             <div class="row m-2">
                                 <mat-form-field class="full-width" appearance="outline">
                                     <mat-label>Amout</mat-label>
-                                    <input matInput formControlName="amount">
+                                    <input matInput formControlName="amount" class="example-right-align">
+                                        <span matPrefix>{{currencySymbol}}</span>
                                     <mat-error *ngIf = "currencyConverterForm.get('amount').hasError('required')">
                                         Please Enter valid amount
                                     </mat-error>
