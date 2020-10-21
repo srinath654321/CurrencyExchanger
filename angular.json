@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "CurrencyConverter": {
+    "CurrencyExchanger": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/CurrencyConverter",
+            "outputPath": "dist/CurrencyExchanger",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -64,18 +64,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "CurrencyConverter:build"
+            "browserTarget": "CurrencyExchanger:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "CurrencyConverter:build:production"
+              "browserTarget": "CurrencyExchanger:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "CurrencyConverter:build"
+            "browserTarget": "CurrencyExchanger:build"
           }
         },
         "test": {
@@ -113,18 +113,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "CurrencyConverter:serve"
+            "devServerTarget": "CurrencyExchanger:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "CurrencyConverter:serve:production"
+              "devServerTarget": "CurrencyExchanger:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "CurrencyConverter",
+  "defaultProject": "CurrencyExchanger",
   "cli": {
     "analytics": "2ecafa9e-0cfd-452e-81e9-4ccb0446f7d6"
   }
