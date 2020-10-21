@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { plainToClass, deserialize } from 'class-transformer';
 import currencyData from './../assets/data.json'
+import { Observable , of} from 'rxjs';
 
 export class CurrencyCode {
   currencyCode: string;
@@ -29,4 +30,5 @@ export class CurrencydataService {
 
     return this.currencyCodeSymbolMap;
   }
+
 }

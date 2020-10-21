@@ -1,9 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import {ExchagnerateService, ExchangeData} from './../exchagnerate.service';
 import {CurrencydataService} from './../currencydata.service'
 import {plainToClass, deserialize} from  'class-transformer'
+import { HttpErrorResponse } from '@angular/common/http';
+
+export class Transaction {
+  fromCurrency: string;
+  toCurrency: string;
+  amount: number;
+  convertedAmount: number;
+  date: Date;
+
+  constructor(fromCurrency: string, toCurrency: string, amount: number, convertedAmount: number, date: Date) {
+    this.fromCurrency = fromCurrency;
+    this.toCurrency = toCurrency;
+    this.amount = amount;
+    this.convertedAmount = convertedAmount;
+    this.date = date;
+  }
+}
 
 @Component({
   selector: 'app-currency-exchanger',
@@ -14,13 +31,17 @@ export class CurrencyExchangerComponent implements OnInit {
 
   currencyConverterForm : FormGroup;
   currencies : String[] = [];
+  errorText: string;
 
   fromCurrency : string;
   toCurrency : string;
   amount : number;
-  convertedAmount: number;
+  convertedAmount: number = 0;
   rateMap = new Map<string, number>();
   currencyCodeSymbolMap = new Map<String, String>();
+  isHttpError: boolean = false;
+  transactions: Transaction[] = [];
+ 
 
   constructor(private fb : FormBuilder, private service: ExchagnerateService,
     private currencyDataService: CurrencydataService) { }
@@ -34,15 +55,23 @@ export class CurrencyExchangerComponent implements OnInit {
     this.currencyConverterForm = this.fb.group({
       fromCurrency:['USD', [Validators.required]],
       toCurrency:['', [Validators.required]],
-      amount: ['', [Validators.required]]
+      amount: ['', [Validators.required, Validators.min(1)]]
     })
+
+    
   }
 
   get currencySymbol() {
     return this.currencyCodeSymbolMap.get(this.currencyConverterForm.get('fromCurrency').value)  
   }
 
+  storeTransaction(fromCurrency: string, toCurrency: string, amount: number, convertedAmount: number) {
+    let transaction = new Transaction(fromCurrency, toCurrency, amount, convertedAmount, new Date());
+    this.transactions.push(transaction);
+  }
+
   calculate() {
+    this.isHttpError = false;
     this.fromCurrency = this.currencyConverterForm.get('fromCurrency').value;
     this.toCurrency = this.currencyConverterForm.get('toCurrency').value;
     this.amount = this.currencyConverterForm.get('amount').value;
@@ -63,6 +92,12 @@ export class CurrencyExchangerComponent implements OnInit {
       console.log("to currency rate", this.rateMap.get(this.toCurrency))
       this.convertedAmount = (this.amount * this.rateMap.get(this.toCurrency))/this.rateMap.get(this.fromCurrency);
       console.log(this.convertedAmount)
+      this.storeTransaction(this.fromCurrency, this.toCurrency, this.amount, this.convertedAmount);
+    },
+    (error : HttpErrorResponse) => {
+      this.isHttpError = true;
+      console.log("Error in executing the request ", error)
+      this.errorText = error.message;
     })
   }
 

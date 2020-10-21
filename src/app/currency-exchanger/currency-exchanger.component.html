@@ -38,27 +38,53 @@
 
                             <div class="row m-2">
                                 <mat-form-field class="full-width" appearance="outline">
-                                    <mat-label>Amout</mat-label>
+                                    <mat-label>AMOUNT</mat-label>
                                     <input matInput formControlName="amount" class="example-right-align">
                                         <span matPrefix>{{currencySymbol}}</span>
                                     <mat-error *ngIf = "currencyConverterForm.get('amount').hasError('required')">
                                         Please Enter valid amount
+                                    </mat-error>
+                                    <mat-error *ngIf = "currencyConverterForm.get('amount').hasError('min')">
+                                        Please Enter amount greater than 0
                                     </mat-error>
                                 </mat-form-field>
                             </div>
                             <button mat-raised-button color ="primary" [disabled] = "currencyConverterForm.invalid" (click) = "calculate()">EXCHANGE</button>
                         </form>
                    </div>
-                   <ng-container *ngIf = "convertedAmount > 0">
+                   <ng-container *ngIf = "convertedAmount > 0 && !isHttpError">
                        <mat-divider class="m-2"></mat-divider>
                        <div class="text-center mb-4">
                            <strong>{{amount}}  {{fromCurrency}}  =  {{convertedAmount}} {{toCurrency}}</strong>
                        </div>
                    </ng-container>
+                   <ng-container *ngIf = "isHttpError">
+                       <div class="m-2 text-danger text-center">{{errorText}}</div>
+                       <div class="m-2 mb-4 text-danger text-center">Please try again later</div>
+                   </ng-container>
             </div>
         </div>
     </div>
+
+    <div class="mt-5">
+        <div class="row">
+            <ng-container *ngFor = "let transaction of transactions; index as i"`>
+                <div class="col-4 mb-4">
+                    <div class="card mat-elevation-z4">
+                        <div class="card-body">
+                            <div class="text-center">{{transaction.date | date:'medium' }}</div>
+                            <mat-divider class="m-3"></mat-divider>
+                            <div class="text-info text-center"><strong>{{transaction.amount}}  {{transaction.fromCurrency}}  =  {{transaction.convertedAmount}} {{transaction.toCurrency}}</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
 </div>
+
+
 
 
 
