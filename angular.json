@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "CurrencyExchanger": {
+    "currencyexchanger": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/CurrencyExchanger",
+            "outputPath": "dist/currencyexchanger",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -64,18 +64,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "CurrencyExchanger:build"
+            "browserTarget": "currencyexchanger:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "CurrencyExchanger:build:production"
+              "browserTarget": "currencyexchanger:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "CurrencyExchanger:build"
+            "browserTarget": "currencyexchanger:build"
           }
         },
         "test": {
@@ -117,14 +117,14 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "CurrencyExchanger:serve:production"
+              "devServerTarget": "currencyexchanger:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "CurrencyExchanger",
+  "defaultProject": "currencyexchanger",
   "cli": {
     "analytics": "2ecafa9e-0cfd-452e-81e9-4ccb0446f7d6"
   }
