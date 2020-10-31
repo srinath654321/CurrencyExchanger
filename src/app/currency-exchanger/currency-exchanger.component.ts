@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { from, Observable } from 'rxjs';
-import {ExchagnerateService, ExchangeData} from './../exchagnerate.service';
-import {CurrencydataService} from './../currencydata.service'
-import {plainToClass, deserialize} from  'class-transformer'
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CurrencydataService } from './../currencydata.service';
+import { ExchagnerateService, ExchangeData } from './../exchagnerate.service';
 
 export class Transaction {
   fromCurrency: string;
@@ -68,6 +66,12 @@ export class CurrencyExchangerComponent implements OnInit {
   storeTransaction(fromCurrency: string, toCurrency: string, amount: number, convertedAmount: number) {
     let transaction = new Transaction(fromCurrency, toCurrency, amount, convertedAmount, new Date());
     this.transactions.push(transaction);
+  }
+
+
+  removeCard(i: number) {
+    let transaction = this.transactions[i];
+    this.transactions = this.transactions.filter(trans => trans != transaction);
   }
 
   calculate() {

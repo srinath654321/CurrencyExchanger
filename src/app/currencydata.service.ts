@@ -9,10 +9,6 @@ export class CurrencyCode {
   currencySymbol: string;
 }
 
-
-
-
-
 @Injectable({
   providedIn: 'root'
 })
